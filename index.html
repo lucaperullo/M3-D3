@@ -1,34 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <!--
-        PICTURE ALBUM EXERCISE
-
-   
-
-        3) When the user clicks on the "VIEW" button inside the Card, open the specified image in a modal view
-       
-        
-        6) Replace the "9 mins" string in the card template with the ID of the Image
-        
-        [EXTRA]
-        7) Add in the "jumbotron" a search field. If there is a value there and the user press "Load Seconday Image" the API call should use the specified query as query
-        8) After every button is pressed, display in an alert for 5 seconds the result of the operation (es.: 20 images loaded)
-        9) Handle API error gracefully using alert components with the message inside
-        10) Add at the bottom of the page a carousel with "forest" images loaded by another API call
-
-        [EVEN MORE EXTRA]
-        11) Use the map method to create from your splashbase response object an array containing just the url strings
-        12) Use filter to modify the "forest" api call to receive only images from a source different than "unsplash"
-        13) Use the reduce method on the results array to sum up all the id numbers in a single one
-
-        [HINT]
-        You can replace the images src for making your pictures appear on button click or you can use template literals to re-create all the cards from scratch.
-        Use arrow functions to make some practice with them
-
-        API Docs: http://www.splashbase.co/api
-      -->
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -43,17 +15,21 @@
     <title>Album example · Bootstrap</title>
 
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-      crossorigin="anonymous"
+      rel="canonical"
+      href="https://getbootstrap.com/docs/4.3/examples/album/"
     />
 
-    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header>
-      <div class="bg-dark collapse" id="navbarHeader">
+      <div class="collapse bg-dark" id="navbarHeader">
         <div class="container">
           <div class="row">
             <div class="col-sm-8 col-md-7 py-4">
@@ -88,8 +64,6 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              data-toggle="modal"
-              data-target="#exampleModal"
               aria-hidden="true"
               class="mr-2"
               viewBox="0 0 24 24"
@@ -97,13 +71,13 @@
             >
               <path
                 d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-              ></path>
-              <circle cx="12" cy="13" r="4"></circle>
+              />
+              <circle cx="12" cy="13" r="4" />
             </svg>
             <strong>Album</strong>
           </a>
           <button
-            class="navbar-toggler collapsed"
+            class="navbar-toggler"
             type="button"
             data-toggle="collapse"
             data-target="#navbarHeader"
@@ -118,6 +92,9 @@
     </header>
 
     <main role="main">
+      <div class="alert alert-success d-none" role="alert">
+        <!-- Generate Alert Message Here -->
+      </div>
       <section class="jumbotron text-center">
         <div class="container">
           <h1 class="jumbotron-heading">Album API example</h1>
@@ -125,14 +102,25 @@
             This page will dynamically load pictures from the web, and display
             them in a cool way!
           </p>
-
           <p>
-            <a onclick="fetchImages()" class="btn btn-primary my-2"
+            <a href="#" class="btn btn-primary my-2" onclick="loadImage()"
               >Load Images</a
             >
-            <a onclick="fetchImages2()" class="btn btn-secondary my-2"
+            <a
+              href="#"
+              class="btn btn-secondary my-2"
+              onclick="loadImagesSecondary()"
               >Load Secondary Images</a
             >
+            <br />
+            <div style="justify-content:center" class="d-flex">
+            <input
+            class="input-field"
+              style="padding: 5px; outline: none; border-color: transparent;"
+              type="text"
+              placeholder="search.."
+            />
+            <a href="" class="btn btn-success">search</a></div>
           </p>
         </div>
       </section>
@@ -153,7 +141,7 @@
                   aria-label="Placeholder: Thumbnail"
                 >
                   <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c"></rect>
+                  <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                     Thumbnail
                   </text>
@@ -170,18 +158,15 @@
                     <div class="btn-group">
                       <button
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         class="btn btn-sm btn-outline-secondary"
                       >
                         View
                       </button>
                       <button
-                        id="hide"
                         type="button"
                         class="btn btn-sm btn-outline-secondary"
                       >
-                        Hide
+                        Edit
                       </button>
                     </div>
                     <small class="text-muted">9 mins</small>
@@ -202,7 +187,7 @@
                   aria-label="Placeholder: Thumbnail"
                 >
                   <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c"></rect>
+                  <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                     Thumbnail
                   </text>
@@ -219,18 +204,15 @@
                     <div class="btn-group">
                       <button
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         class="btn btn-sm btn-outline-secondary"
                       >
                         View
                       </button>
                       <button
-                        id="hide"
                         type="button"
                         class="btn btn-sm btn-outline-secondary"
                       >
-                        Hide
+                        Edit
                       </button>
                     </div>
                     <small class="text-muted">9 mins</small>
@@ -251,7 +233,7 @@
                   aria-label="Placeholder: Thumbnail"
                 >
                   <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c"></rect>
+                  <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                     Thumbnail
                   </text>
@@ -268,18 +250,15 @@
                     <div class="btn-group">
                       <button
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         class="btn btn-sm btn-outline-secondary"
                       >
                         View
                       </button>
                       <button
-                        id="hide"
                         type="button"
                         class="btn btn-sm btn-outline-secondary"
                       >
-                        Hide
+                        Edit
                       </button>
                     </div>
                     <small class="text-muted">9 mins</small>
@@ -301,7 +280,7 @@
                   aria-label="Placeholder: Thumbnail"
                 >
                   <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c"></rect>
+                  <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                     Thumbnail
                   </text>
@@ -318,18 +297,15 @@
                     <div class="btn-group">
                       <button
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         class="btn btn-sm btn-outline-secondary"
                       >
                         View
                       </button>
                       <button
-                        id="hide"
                         type="button"
                         class="btn btn-sm btn-outline-secondary"
                       >
-                        Hide
+                        Edit
                       </button>
                     </div>
                     <small class="text-muted">9 mins</small>
@@ -350,7 +326,7 @@
                   aria-label="Placeholder: Thumbnail"
                 >
                   <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c"></rect>
+                  <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                     Thumbnail
                   </text>
@@ -367,18 +343,15 @@
                     <div class="btn-group">
                       <button
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         class="btn btn-sm btn-outline-secondary"
                       >
                         View
                       </button>
                       <button
-                        id="hide"
                         type="button"
                         class="btn btn-sm btn-outline-secondary"
                       >
-                        Hide
+                        Edit
                       </button>
                     </div>
                     <small class="text-muted">9 mins</small>
@@ -399,7 +372,7 @@
                   aria-label="Placeholder: Thumbnail"
                 >
                   <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c"></rect>
+                  <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                     Thumbnail
                   </text>
@@ -416,18 +389,15 @@
                     <div class="btn-group">
                       <button
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         class="btn btn-sm btn-outline-secondary"
                       >
                         View
                       </button>
                       <button
-                        id="hide"
                         type="button"
                         class="btn btn-sm btn-outline-secondary"
                       >
-                        Hide
+                        Edit
                       </button>
                     </div>
                     <small class="text-muted">9 mins</small>
@@ -449,7 +419,7 @@
                   aria-label="Placeholder: Thumbnail"
                 >
                   <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c"></rect>
+                  <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                     Thumbnail
                   </text>
@@ -466,18 +436,15 @@
                     <div class="btn-group">
                       <button
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         class="btn btn-sm btn-outline-secondary"
                       >
                         View
                       </button>
                       <button
-                        id="hide"
                         type="button"
                         class="btn btn-sm btn-outline-secondary"
                       >
-                        Hide
+                        Edit
                       </button>
                     </div>
                     <small class="text-muted">9 mins</small>
@@ -498,7 +465,7 @@
                   aria-label="Placeholder: Thumbnail"
                 >
                   <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c"></rect>
+                  <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                     Thumbnail
                   </text>
@@ -515,18 +482,15 @@
                     <div class="btn-group">
                       <button
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         class="btn btn-sm btn-outline-secondary"
                       >
                         View
                       </button>
                       <button
-                        id="hide"
                         type="button"
                         class="btn btn-sm btn-outline-secondary"
                       >
-                        Hide
+                        Edit
                       </button>
                     </div>
                     <small class="text-muted">9 mins</small>
@@ -547,7 +511,7 @@
                   aria-label="Placeholder: Thumbnail"
                 >
                   <title>Placeholder</title>
-                  <rect width="100%" height="100%" fill="#55595c"></rect>
+                  <rect width="100%" height="100%" fill="#55595c" />
                   <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                     Thumbnail
                   </text>
@@ -564,18 +528,15 @@
                     <div class="btn-group">
                       <button
                         type="button"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
                         class="btn btn-sm btn-outline-secondary"
                       >
                         View
                       </button>
                       <button
-                        id="hide"
                         type="button"
                         class="btn btn-sm btn-outline-secondary"
                       >
-                        Hide
+                        Edit
                       </button>
                     </div>
                     <small class="text-muted">9 mins</small>
@@ -586,7 +547,64 @@
           </div>
         </div>
       </div>
+      <div
+        id="carouselExampleControls"
+        class="carousel slide"
+        data-ride="carousel"
+      >
+        <div class="carousel-inner">
+          <!-- Generate Content Here -->
+        </div>
+        <a
+          class="carousel-control-prev"
+          href="#carouselExampleControls"
+          role="button"
+          data-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a
+          class="carousel-control-next"
+          href="#carouselExampleControls"
+          role="button"
+          data-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
     </main>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Image Preview</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- GENERATE IMAGE HERE -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer class="text-muted">
       <div class="container">
@@ -594,22 +612,26 @@
           <a href="#">Back to top</a>
         </p>
         <p>
-          Album example is © Bootstrap, but please download and customize it for
-          yourself!
+          Album example is &copy; Bootstrap, but please download and customize
+          it for yourself!
         </p>
       </div>
     </footer>
+    <script src="index.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
       crossorigin="anonymous"
     ></script>
-
-    <script src="index.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+      integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
