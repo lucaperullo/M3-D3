@@ -123,7 +123,7 @@ async function loadImagesSecondary() {
   for (let i = 0; i < allImgIDs.length; i++) {
     allImgIDs[i].innerText = imageLibrarySecondary[i].id;
   }
-  imageSet_One = false;
+  imageSet_One = true;
   successAlert(10);
 }
 function openModal() {
