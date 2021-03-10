@@ -1,4 +1,5 @@
 let imageLibrary = [];
+let imageLibrary1 = [];
 let imageLibrarySecondary = [];
 let imageLibraryForest = [];
 let allViewButtons = [];
@@ -16,6 +17,7 @@ function successAlert(numberOfImages) {
   setTimeout(function () {
     alert.classList.remove("d-block");
     alert.classList.add("slide-out-top");
+    alert.classList.add("d-none");
   }, 3000);
 }
 
@@ -53,9 +55,45 @@ async function loadImage() {
     `http://www.splashbase.co/api/v1/images/latest`
   ).then(async (response) => {
     let data = await response.json();
+    console.log(data.images);
+    const images = data.images;
+    imageLibrary1.push(images);
     imageLibrary.push(data);
   });
+  console.log(imageLibrary1);
+  const cards = document.querySelectorAll(".card");
+  cards.forEach((card, idx) => {
+    card.firstElementChild.remove();
+    const imgHTML = `<img class="card-img-top" src="${imageLibrary1[0][idx].url}" height="250" alt="Card image cap"></img>`;
+    card.insertAdjacentHTML("afterbegin", imgHTML);
+  });
+  const allImgIDs = document.querySelectorAll("small");
+  for (let i = 0; i < allImgIDs.length; i++) {
+    allImgIDs[i].innerText = imageLibrary[0].images[i].id;
+  }
 
+  imageSet_One = true;
+  successAlert(10);
+}
+
+async function searchImage() {
+  const search = document.querySelector(".input-field").value;
+  const response = await fetch(
+    `http://www.splashbase.co/api/v1/images/search?query=${search}`
+  ).then(async (response) => {
+    let data = await response.json();
+    console.log(data.images);
+    const images = data.images;
+    imageLibrary1.push(images);
+    imageLibrary.push(data);
+  });
+  console.log(imageLibrary1);
+  const cards = document.querySelectorAll(".card");
+  cards.forEach((card, idx) => {
+    card.firstElementChild.remove();
+    const imgHTML = `<img class="card-img-top" src="${imageLibrary1[0][idx].url}" height="250" alt="Card image cap"></img>`;
+    card.insertAdjacentHTML("afterbegin", imgHTML);
+  });
   const allImgIDs = document.querySelectorAll("small");
   for (let i = 0; i < allImgIDs.length; i++) {
     allImgIDs[i].innerText = imageLibrary[0].images[i].id;
@@ -73,7 +111,16 @@ async function loadImagesSecondary() {
       let data = await response.json();
       imageLibrarySecondary.push(data);
     });
+    const cards = document.querySelectorAll(".card");
+    cards.forEach((card) => {
+      card.firstElementChild.remove();
+    });
   }
+  cards.forEach((card, idx) => {
+    card.firstElementChild.remove();
+    const imgHTML = `<img class="card-img-top" src="${imageLibrarySecondary1[0][idx].url}" height="250" alt="Card image cap"></img>`;
+    card.insertAdjacentHTML("afterbegin", imgHTML);
+  });
   const allImgIDs = document.querySelectorAll("small");
   for (let i = 0; i < allImgIDs.length; i++) {
     allImgIDs[i].innerText = imageLibrarySecondary[i].id;
