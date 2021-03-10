@@ -121,7 +121,7 @@ async function loadImagesSecondary() {
   });
   const allImgIDs = document.querySelectorAll("small");
   for (let i = 0; i < allImgIDs.length; i++) {
-    allImgIDs[i].innerText = imageLibrarySecondary[i].id;
+    allImgIDs[i].innerText = imageLibrarySecondary[0].images[i].id;
   }
   imageSet_One = true;
   successAlert(10);
