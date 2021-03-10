@@ -1,6 +1,7 @@
 let imageLibrary = [];
 let imageLibrary1 = [];
 let imageLibrarySecondary = [];
+let imageLibrarySecondary1 = [];
 let imageLibraryForest = [];
 let allViewButtons = [];
 let allEditButtons = [];
@@ -104,18 +105,15 @@ async function searchImage() {
 }
 
 async function loadImagesSecondary() {
-  for (let i = 0; imageLibrarySecondary.length < 10; i++) {
-    const response = await fetch(
-      `http://www.splashbase.co/api/v1/images/random`
-    ).then(async (response) => {
-      let data = await response.json();
-      imageLibrarySecondary.push(data);
-    });
-    const cards = document.querySelectorAll(".card");
-    cards.forEach((card) => {
-      card.firstElementChild.remove();
-    });
-  }
+  const response = await fetch(
+    `http://www.splashbase.co/api/v1/images/search?query=trees`
+  ).then(async (response) => {
+    let data = await response.json();
+    console.log(data);
+    imageLibrarySecondary.push(data);
+    imageLibrarySecondary1.push(data.images);
+  });
+  const cards = document.querySelectorAll(".card");
   cards.forEach((card, idx) => {
     card.firstElementChild.remove();
     const imgHTML = `<img class="card-img-top" src="${imageLibrarySecondary1[0][idx].url}" height="250" alt="Card image cap"></img>`;
@@ -128,7 +126,6 @@ async function loadImagesSecondary() {
   imageSet_One = false;
   successAlert(10);
 }
-
 function openModal() {
   const target = event.currentTarget;
 
