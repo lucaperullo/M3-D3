@@ -3,8 +3,8 @@ const search = "cars";
 const url = "http://www.splashbase.co/api/v1/images/search?query=" + search;
 
 // generating modals
-const generateModals = (res) => {
-  res.forEach((element) => {
+const generateModals = ({ images }) => {
+  images.forEach((element) => {
     console.log(element);
   });
 };
@@ -14,8 +14,8 @@ const fetchImages = () => {
   fetch(url)
     .then((res) => res.json())
     .then(loadImages)
+    .then(generateModals)
     .catch((err) => console.log(err));
-  generateModals(res.json);
 };
 function loadImages({ images }) {
   let cards = document.querySelectorAll(".card");
@@ -29,6 +29,7 @@ function loadImages({ images }) {
     imgs.src = images[i].url;
     list.innerHTML = imgs.outerHTML + " " + list.innerHTML;
   }
+  hideCards();
 }
 const search2 = "trees";
 
@@ -51,6 +52,7 @@ function loadImages2({ images }) {
     imgs.src = images[i].url;
     list.innerHTML = imgs.outerHTML + " " + list.innerHTML;
   }
+  hideCards();
 }
 
 const hideCards = () => {
@@ -63,5 +65,3 @@ const hideCards = () => {
     });
   });
 };
-
-window.onload = hideCards;
